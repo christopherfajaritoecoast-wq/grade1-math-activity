@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Number Nest | Grade 1 Math</title>
+<meta name="description" content="A playful Grade 1 Mathematics learning website.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap');
+
+  :root{
+    --navy:#20234a; --purple:#6d5dfc; --violet:#8b5cf6;
+    --mint:#48d7b0; --yellow:#ffd166; --coral:#ff7b72;
+    --sky:#6ec5ff; --cream:#fffaf2; --paper:#ffffff;
+    --muted:#747995; --line:#e9e7f3; --shadow:0 18px 45px rgba(50,42,110,.12);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; color:var(--navy); background:#f7f5ff;
+    font-family:'Nunito',sans-serif; min-height:100vh;
+  }
+  button{font-family:inherit}
+  .app-shell{display:flex;min-height:100vh}
+  .sidebar{
+    width:235px;background:var(--navy);color:white;padding:24px 17px;
+    position:fixed;left:0;top:0;bottom:0;z-index:20;
+    display:flex;flex-direction:column;
+  }
+  .brand{display:flex;align-items:center;gap:11px;padding:4px 8px 28px;cursor:pointer}
+  .brand-mark{
+    width:45px;height:45px;border-radius:15px;background:var(--yellow);color:var(--navy);
+    display:grid;place-items:center;font-family:'Baloo 2';font-size:27px;font-weight:800;
+    transform:rotate(-5deg)
+  }
+  .brand strong{font-family:'Baloo 2';font-size:22px;line-height:1}
+  .brand small{display:block;color:#b9bad5;font-size:10px;font-weight:800;letter-spacing:1px;margin-top:3px}
+  .nav-label{text-transform:uppercase;color:#777aa3;font-size:10px;font-weight:800;letter-spacing:1.5px;padding:0 11px;margin:10px 0}
+  .nav-btn{
+    width:100%;border:0;background:transparent;color:#c9cae0;padding:12px 12px;
+    border-radius:13px;text-align:left;font-weight:800;cursor:pointer;margin-bottom:4px;
+    transition:.18s;display:flex;align-items:center;gap:11px
+  }
+  .nav-btn:hover,.nav-btn.active{background:#343763;color:white}
+  .nav-icon{width:25px;text-align:center;font-size:18px}
+  .side-bottom{margin-top:auto;background:#2d3059;border-radius:18px;padding:15px}
+  .side-bottom .mini-title{font-size:11px;color:#aeb0cd;font-weight:800}
+  .side-stars{font-family:'Baloo 2';font-size:25px;margin-top:3px;color:var(--yellow)}
+  .content{margin-left:235px;width:calc(100% - 235px);min-height:100vh}
+  .top{
+    height:72px;background:rgba(255,255,255,.88);border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;padding:0 34px;
+    position:sticky;top:0;z-index:10;backdrop-filter:blur(10px)
+  }
+  .welcome{font-weight:800}.welcome span{color:var(--purple)}
+  .total{
+    display:flex;align-items:center;gap:8px;background:#fff6d7;border:1px solid #ffe39a;
+    padding:8px 13px;border-radius:999px;font-weight:800;color:#775b00
+  }
+  main{max-width:1120px;margin:auto;padding:34px}
+  .hero{
+    min-height:260px;border-radius:30px;padding:34px;position:relative;overflow:hidden;
+    background:linear-gradient(125deg,#6d5dfc,#8b5cf6 55%,#a78bfa);color:white;
+    box-shadow:var(--shadow);display:flex;align-items:center
+  }
+  .hero-copy{max-width:600px;position:relative;z-index:2}
+  .hero-kicker{font-size:12px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:#ddd9ff}
+  .hero h1{font-family:'Baloo 2';font-size:48px;line-height:.98;margin:9px 0 13px}
+  .hero p{font-size:16px;line-height:1.55;color:#eeeaff;margin:0}
+  .hero-button{
+    margin-top:20px;border:0;background:var(--yellow);color:var(--navy);
+    padding:12px 19px;border-radius:14px;font-weight:900;cursor:pointer
+  }
+  .hero-art{position:absolute;right:45px;bottom:-15px;font-size:155px;opacity:.96;transform:rotate(5deg)}
+  .bubble{position:absolute;border-radius:50%;background:rgba(255,255,255,.10)}
+  .b1{width:180px;height:180px;right:80px;top:-65px}.b2{width:90px;height:90px;right:300px;bottom:-35px}
+  .section-head{display:flex;justify-content:space-between;align-items:end;margin:32px 2px 15px}
+  .section-head h2{font-family:'Baloo 2';font-size:30px;margin:0}
+  .section-head p{margin:3px 0 0;color:var(--muted);font-size:13px}
+  .lesson-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  .lesson{
+    background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:21px;
+    cursor:pointer;box-shadow:0 7px 20px rgba(42,35,91,.05);transition:.2s;position:relative
+  }
+  .lesson:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+  .lesson-head{display:flex;justify-content:space-between;align-items:center}
+  .lesson-icon{width:55px;height:55px;border-radius:17px;display:grid;place-items:center;font-size:27px}
+  .l1{background:#e4f4ff}.l2{background:#e8fff7}.l3{background:#fff0f0}.l4{background:#fff7d8}
+  .lesson-status{font-size:10px;font-weight:900;text-transform:uppercase;padding:6px 9px;border-radius:999px;background:#f4f3fb;color:#777995}
+  .lesson h3{font-family:'Baloo 2';font-size:24px;margin:15px 0 3px}
+  .lesson p{color:var(--muted);font-size:13px;line-height:1.5;margin:0 0 17px}
+  .lesson-foot{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #f0eef7;padding-top:13px}
+  .stars-earned{font-size:12px;font-weight:900;color:#9b7800}
+  .start{
+    border:0;border-radius:11px;padding:9px 13px;color:white;background:var(--purple);
+    font-size:12px;font-weight:900;cursor:pointer
+  }
+  .feature-row{display:grid;grid-template-columns:1.4fr .8fr;gap:18px;margin-top:18px}
+  .panel{background:white;border:1px solid var(--line);border-radius:22px;padding:22px}
+  .panel h3{font-family:'Baloo 2';font-size:23px;margin:0 0 5px}
+  .panel p{color:var(--muted);font-size:13px;line-height:1.5;margin:0}
+  .tip{background:#e9fff8;border-color:#c6f6e8}
+  .tip strong{color:#087b61}
+  .game-wrap{max-width:850px;margin:auto}
+  .game-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+  .back{
+    border:1px solid var(--line);background:white;padding:10px 14px;border-radius:12px;
+    font-weight:800;color:#5e627e;cursor:pointer
+  }
+  .game-title{font-family:'Baloo 2';font-size:27px;margin:0}
+  .question-count{font-size:12px;font-weight:900;color:var(--muted)}
+  .track{height:11px;background:#e8e6f2;border-radius:999px;overflow:hidden;margin-bottom:25px}
+  .track > div{height:100%;background:linear-gradient(90deg,var(--mint),#2bbf99);border-radius:999px;transition:.3s}
+  .activity{
+    background:white;border:1px solid var(--line);border-radius:28px;padding:35px;
+    box-shadow:var(--shadow);text-align:center
+  }
+  .activity-badge{font-size:42px;margin-bottom:6px}
+  .question{font-family:'Baloo 2';font-size:30px;line-height:1.1;margin:6px auto 20px;max-width:650px}
+  .objects{
+    min-height:125px;background:#faf9ff;border:2px dashed #d8d4f2;border-radius:20px;
+    display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;
+    padding:17px;margin-bottom:20px;font-size:39px
+  }
+  .equation{font-family:'Baloo 2';font-size:58px;margin:10px 0 20px}
+  .answers{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .answer{
+    border:2px solid #e7e5f0;background:#fff;padding:15px;border-radius:17px;
+    font-size:22px;font-weight:900;color:var(--navy);cursor:pointer;transition:.15s
+  }
+  .answer:hover{border-color:#a99cff;background:#faf9ff;transform:translateY(-2px)}
+  .answer:disabled{opacity:.65;cursor:not-allowed}
+  .feedback{min-height:52px;margin-top:14px}
+  .feedback div{padding:13px;border-radius:14px;font-weight:900}
+  .good{background:#e5fff6;color:#087b61;border:1px solid #9be9d3}
+  .try{background:#fff0f2;color:#a52c45;border:1px solid #ffc3ce}
+  .modal{
+    position:fixed;inset:0;background:rgba(24,26,57,.64);display:grid;place-items:center;
+    padding:20px;z-index:50
+  }
+  .hidden{display:none!important}
+  .modal-card{background:white;width:min(420px,100%);border-radius:28px;padding:30px;text-align:center}
+  .modal-icon{font-size:65px}.modal-card h2{font-family:'Baloo 2';font-size:31px;margin:7px 0}
+  .modal-card p{color:var(--muted);line-height:1.5}
+  .modal-card button{width:100%;border:0;background:var(--navy);color:white;padding:13px;border-radius:13px;font-weight:900;cursor:pointer}
+  .mobile-menu{display:none}
+  @media(max-width:850px){
+    .sidebar{width:76px;padding:18px 10px}.brand{justify-content:center;padding:0 0 25px}
+    .brand strong,.brand small,.nav-label,.nav-btn span:not(.nav-icon),.side-bottom .mini-title{display:none}
+    .nav-btn{justify-content:center;padding:12px}.side-bottom{text-align:center;padding:8px}
+    .content{margin-left:76px;width:calc(100% - 76px)}.top{padding:0 18px}
+    .hero-art{right:12px;font-size:110px;opacity:.55}.hero{min-height:280px}
+  }
+  @media(max-width:650px){
+    main{padding:20px 14px}.hero{padding:25px;min-height:300px}.hero h1{font-size:38px}
+    .hero-art{font-size:90px;bottom:0}.lesson-grid,.feature-row{grid-template-columns:1fr}
+    .top{height:64px}.welcome{font-size:13px}.activity{padding:24px 15px}.answers{grid-template-columns:1fr}
+    .game-toolbar{align-items:flex-start}.game-title{font-size:22px}.question{font-size:26px}.equation{font-size:45px}
+  }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand" onclick="app.home()">
+      <div class="brand-mark">N</div>
+      <div><strong>Number Nest</strong><small>GRADE 1 MATH</small></div>
+    </div>
+    <div class="nav-label">Learning</div>
+    <button class="nav-btn active" onclick="app.home()"><span class="nav-icon">⌂</span><span>My Lessons</span></button>
+    <button class="nav-btn" onclick="app.scrollLessons()"><span class="nav-icon">📖</span><span>Math Topics</span></button>
+    <button class="nav-btn" onclick="app.showTip()"><span class="nav-icon">💡</span><span>Math Tip</span></button>
+    <div class="side-bottom">
+      <div class="mini-title">MY STARS</div>
+      <div class="side-stars">★ <span id="side-stars">0</span></div>
+    </div>
+  </aside>
+
+  <div class="content">
+    <header class="top">
+      <div class="welcome">Hello, <span>Math Explorer!</span> 👋</div>
+      <div class="total">⭐ <span id="top-stars">0</span> stars</div>
+    </header>
+    <main id="main"></main>
+  </div>
+</div>
+
+<div id="modal" class="modal hidden">
+  <div class="modal-card">
+    <div class="modal-icon">🎈</div>
+    <h2 id="modal-title">Well Done!</h2>
+    <p id="modal-text"></p>
+    <button onclick="app.closeModal()">Back to My Lessons</button>
+  </div>
+</div>
+
+<script>
+const topics=[
+ {id:"counting",name:"Counting & Numbers",icon:"🔢",iconClass:"l1",
+  desc:"Practice counting objects and finding numbers up to 20.",
+  qs:[
+   {type:"count",n:5,e:"🍎",q:"How many apples are there?"},
+   {type:"count",n:8,e:"⭐",q:"How many stars can you count?"},
+   {type:"count",n:4,e:"🐱",q:"How many little cats are there?"},
+   {type:"mc",q:"Which number is bigger: 7 or 4?",o:["7","4"],a:0},
+   {type:"mc",q:"What comes next? 1, 2, 3, ?",o:["4","5","0"],a:0}
+  ]},
+ {id:"addition",name:"Fun Addition",icon:"➕",iconClass:"l2",
+  desc:"Put groups together and solve simple addition facts.",
+  qs:[
+   {type:"eq",a:2,b:3,op:"+",answer:5},{type:"eq",a:4,b:1,op:"+",answer:5},
+   {type:"eq",a:3,b:3,op:"+",answer:6},{type:"eq",a:5,b:2,op:"+",answer:7},
+   {type:"eq",a:1,b:6,op:"+",answer:7}
+  ]},
+ {id:"subtraction",name:"Simple Subtraction",icon:"➖",iconClass:"l3",
+  desc:"Take away objects and discover how many are left.",
+  qs:[
+   {type:"eq",a:5,b:2,op:"−",answer:3},{type:"eq",a:4,b:1,op:"−",answer:3},
+   {type:"eq",a:6,b:3,op:"−",answer:3},{type:"eq",a:7,b:4,op:"−",answer:3},
+   {type:"eq",a:3,b:0,op:"−",answer:3}
+  ]},
+ {id:"shapes",name:"Shapes & Patterns",icon:"🔷",iconClass:"l4",
+  desc:"Identify familiar shapes and complete simple patterns.",
+  qs:[
+   {type:"mc",q:"Which shape has 3 equal sides and 3 corners?",o:["🔺 Triangle","⬜ Square","⚪ Circle"],a:0},
+   {type:"mc",q:"What shape looks like a wheel or a ball?",o:["▭ Rectangle","⚪ Circle","⬜ Square"],a:1},
+   {type:"mc",q:"Complete the pattern: 🔴 🔵 🔴 🔵 ?",o:["🔴 Red","🟢 Green","🟡 Yellow"],a:0},
+   {type:"mc",q:"How many corners does a square have?",o:["3","4","5"],a:1},
+   {type:"mc",q:"Which shape has 4 equal straight sides?",o:["🔺 Triangle","⬜ Square","⭐ Star"],a:1}
+  ]}
+];
+
+class NumberNest{
+ constructor(){
+   this.progress=JSON.parse(localStorage.getItem("numberNestProgress")||"{}");
+   this.topicId=null;this.i=0;this.score=0;this.render();this.updateStars();
+ }
+ topic(){return topics.find(x=>x.id===this.topicId)}
+ total(){return Object.values(this.progress).reduce((n,x)=>n+(x?.stars||0),0)}
+ updateStars(){
+   document.querySelector("#top-stars").textContent=this.total();
+   document.querySelector("#side-stars").textContent=this.total();
+ }
+ save(){localStorage.setItem("numberNestProgress",JSON.stringify(this.progress));this.updateStars()}
+ home(){this.topicId=null;this.render();window.scrollTo(0,0)}
+ scrollLessons(){document.querySelector("#lessons")?.scrollIntoView({behavior:"smooth"})}
+ showTip(){this.openModal("Math Tip 💡","When you add, count everything together. When you subtract, start with the bigger number and count backwards!")}
+ start(id){this.topicId=id;this.i=0;this.score=0;this.render();window.scrollTo(0,0)}
+ render(){document.querySelector("#main").innerHTML=this.topicId?this.game():this.dashboard()}
+ dashboard(){
+  return `<section class="hero">
+    <div class="bubble b1"></div><div class="bubble b2"></div>
+    <div class="hero-copy">
+      <div class="hero-kicker">A little learning adventure</div>
+      <h1>Let’s make math<br>feel like play!</h1>
+      <p>Choose a lesson, solve the challenges, and collect stars as you explore numbers, shapes, addition, and subtraction.</p>
+      <button class="hero-button" onclick="app.scrollLessons()">Explore Lessons ↓</button>
+    </div>
+    <div class="hero-art">🦉</div>
+  </section>
+  <div id="lessons" class="section-head">
+    <div><h2>Today's Math Missions</h2><p>Choose any topic to begin your adventure.</p></div>
+  </div>
+  <section class="lesson-grid">
+   ${topics.map(t=>{
+     const p=this.progress[t.id]||{stars:0,completed:false};
+     return `<article class="lesson" onclick="app.start('${t.id}')">
+       <div class="lesson-head"><div class="lesson-icon ${t.iconClass}">${t.icon}</div>
+       <div class="lesson-status">${p.completed?"Completed":"New Mission"}</div></div>
+       <h3>${t.name}</h3><p>${t.desc}</p>
+       <div class="lesson-foot"><span class="stars-earned">⭐ ${p.stars} stars</span>
+       <button class="start" onclick="event.stopPropagation();app.start('${t.id}')">Start →</button></div>
+     </article>`
+   }).join("")}
+  </section>
+  <div class="feature-row">
+    <section class="panel"><h3>🏆 Your Progress</h3><p>Every correct answer earns 2 stars. Your best score for each mission is saved automatically on this device.</p></section>
+    <section class="panel tip"><h3>💡 Quick Tip</h3><p><strong>Take your time!</strong> Read each question carefully before choosing an answer.</p></section>
+  </div>`
+ }
+ game(){
+  const t=this.topic(),q=t.qs[this.i],pct=Math.round(this.i/t.qs.length*100);
+  let body="";
+  if(q.type==="count"){
+    const objects=Array.from({length:q.n},()=>`<span>${q.e}</span>`).join("");
+    body=`<div class="question">${q.q}</div><div class="objects">${objects}</div>${this.buttons(this.options(q.n),q.n)}`
+  }else if(q.type==="eq"){
+    body=`<div class="question">Solve the problem!</div>
+      <div class="equation">${q.a} ${q.op} ${q.b} = ?</div>
+      <div class="objects">${q.op==="+"?"🟠":"🔵"} ${q.op==="+"?"➕":"➖"} ${q.op==="+"?"🟢":"🟣"}</div>
+      ${this.buttons(this.options(q.answer),q.answer)}`
+  }else{
+    body=`<div class="question">${q.q}</div>${this.buttons(q.o,q.a,true)}`
+  }
+  return `<div class="game-wrap">
+    <div class="game-toolbar"><button class="back" onclick="app.home()">← Lessons</button>
+      <div style="text-align:right"><h2 class="game-title">${t.icon} ${t.name}</h2><div class="question-count">Challenge ${this.i+1} of ${t.qs.length}</div></div>
+    </div>
+    <div class="track"><div style="width:${pct}%"></div></div>
+    <section class="activity"><div class="activity-badge">${t.icon}</div>${body}<div id="feedback" class="feedback"></div></section>
+  </div>`
+ }
+ options(answer){
+  return [...new Set([answer,answer+1,Math.max(0,answer-1)])].sort(()=>Math.random()-.5)
+ }
+ buttons(options,answer,indexMode=false){
+  return `<div class="answers">${options.map((x,i)=>{
+    const correct=indexMode?i===answer:Number(x)===answer;
+    return `<button class="answer" onclick="app.answer(${correct})">${x}</button>`
+  }).join("")}</div>`
+ }
+ answer(correct){
+  document.querySelectorAll(".answer").forEach(x=>x.disabled=true);
+  const f=document.querySelector("#feedback");
+  if(correct){this.score+=2;f.innerHTML='<div class="good">🌟 Yes! That is correct! +2 stars</div>'}
+  else f.innerHTML='<div class="try">🌱 Nice try! Keep going to the next challenge.</div>';
+  setTimeout(()=>{
+    this.i++;
+    if(this.i<this.topic().qs.length)this.render();else this.finish()
+  },850)
+ }
+ finish(){
+  const id=this.topicId,old=this.progress[id]?.stars||0;
+  this.progress[id]={stars:Math.max(old,this.score),completed:true};this.save();
+  this.openModal("Mission Complete! 🎉",`You earned ${this.score} stars in ${this.topic().name}. Keep exploring and learning!`)
+ }
+ openModal(title,text){
+  document.querySelector("#modal-title").textContent=title;
+  document.querySelector("#modal-text").textContent=text;
+  document.querySelector("#modal").classList.remove("hidden")
+ }
+ closeModal(){document.querySelector("#modal").classList.add("hidden");this.home()}
+}
+const app=new NumberNest();
+</script>
+</body>
+</html>
